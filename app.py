@@ -7,9 +7,12 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def selector():
+	wordSplit = []
 	wordNumber = random.randint(0, len(wordpile.words)-1) 
-	wordSelected = wordpile.words.pop(wordNumber)
-	return wordSelected
+	wordSelected = f"{wordpile.words.pop(wordNumber)}"
+	for character in wordSelected:
+		wordSplit.append(character)
+	return render_template("index.html", wordSplit=wordSplit)
 
 
 
