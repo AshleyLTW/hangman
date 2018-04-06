@@ -1,1 +1,2 @@
-words = ["awkward", "bagpipes", "banjo", "crypt", "dwarves", "fishhook", "fjord", "gazebo", "haiku"]
+wordsEasy = ["awkward", "bagpipes", "banjo", "crypt", "dwarves", "fishhook", "fjord", "gazebo", "haiku"]
+wordsHard = ["abruptly", "askew", "boxcar", "disavow", "gizmo", "gnarly", "ivy", "ovary", "plegm", "thumbscrew"]
