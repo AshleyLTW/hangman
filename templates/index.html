@@ -6,11 +6,12 @@
 <body>
 
 <h1>Welcome to Hangman!</h1>
-<h3>What level would you like to play?</h3>
+<h3>Would you like to play an easy or hard level?</h3>
 
-<form action="/hello" method="POST">
+<form action="/" method="POST">
 	<input type="text" name="level">
+	<input type="submit">
 </form>
-
+{{ error }}
 </body>
 </html>
