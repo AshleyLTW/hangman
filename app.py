@@ -25,7 +25,8 @@ def index():
 
 @app.route('/easy')
 def easy():
-	return classpile.selector("easy")
+	wordSplit=classpile.selector("easy")
+	return classpile.guess("a", wordSplit)
 
 
 @app.route('/hard')

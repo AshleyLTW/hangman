@@ -11,10 +11,13 @@ def selector(level):
 		wordSelected = f"{wordpile.wordsEasy.pop(wordNumber)}"
 		for character in wordSelected:
 			wordSplit.append(character)
-		return render_template("test.html", word=wordSplit)
+		return wordSplit
 	else: 
 		wordNumber = random.randint(0, len(wordpile.wordsHard)-1) 
 		wordSelected = f"{wordpile.wordsHard.pop(wordNumber)}"
 		for character in wordSelected:
 			wordSplit.append(character)	
 		return render_template("test.html", word=wordSplit)		
+
+def guess(character, wordSplit):
+	return render_template("test.html", word=wordSplit)
