@@ -1,12 +1,12 @@
 from flask import Flask
+from flask import render_template
 import random 
 import wordpile
 
 
-def selector(self, foo):
-	self.foo = level
+def selector(level):
 	wordSplit = []
-	if self.foo == "easy":
+	if level == "easy":
 		wordNumber = random.randint(0, len(wordpile.wordsEasy)-1) 
 		wordSelected = f"{wordpile.wordsEasy.pop(wordNumber)}"
 		for character in wordSelected:
@@ -16,4 +16,5 @@ def selector(self, foo):
 		wordNumber = random.randint(0, len(wordpile.wordsHard)-1) 
 		wordSelected = f"{wordpile.wordsHard.pop(wordNumber)}"
 		for character in wordSelected:
-			wordSplit.append(character)				
+			wordSplit.append(character)	
+		return render_template("test.html", word=wordSplit)		

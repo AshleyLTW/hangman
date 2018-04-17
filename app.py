@@ -25,12 +25,12 @@ def index():
 
 @app.route('/easy')
 def easy():
-	classpile.selector()
+	return classpile.selector("easy")
 
 
 @app.route('/hard')
 def hard():
-	return "pass"
+	return classpile.selector("hard")
 
 
 
