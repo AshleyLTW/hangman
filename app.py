@@ -34,18 +34,22 @@ def easy():
 	if newGame == "True":
 		player = classpile.player(10, "easy")
 		wordSplit = player.word()
-		resp = make_response(render_template('guessing.html'))
-		resp.set_cookie('wordSplit', "wordSplit")
+		wordSplit = str(wordSplit)
+		lives = player.lives
+		resp = make_response(render_template('guessing.html', wordSplit = wordSplit, lives = lives))
+		resp.set_cookie('wordSplit', wordSplit)
 	# Establishing instance of player class if it isn't a new game
 	else: 
-		resp = make_response(render_template('guessing.html'))
+		wordSplit = request.cookies.get('wordSplit')
+		lives = request.cookies.get('lives')
+		resp = make_response(render_template('guessing.html', wordSplit = wordSplit, lives = lives))
 		player = classpile.player(request.cookies.get('lives'), "easy")
 	# Guessing mechanism
 	if request.method =="POST":
 		char = request.form['char']
 		result = player.guess(char)
 		resp.set_cookie('newGame', "False")
-		lives = str(player.lives)
+		lives = str(lives)
 		if result == "yes":
 			resp.set_cookie('lives', lives)
 			return resp
