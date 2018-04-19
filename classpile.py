@@ -35,5 +35,3 @@ class player(object):
 		else:
 			return "no"
 
-
-
