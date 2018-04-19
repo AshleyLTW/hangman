@@ -1,3 +1,44 @@
+# A functioning hangman program except that I can't get it to work with Flask
+player = classpile.player(10, "easy")
+secret = player.wordSplit
+guess = request.form['char']
+remaining_letters = len(secret)
+guess_space = []
+
+while player.lives > 0 and remaining_letters > 0:
+	for character in secret:
+		if character in guessed_letters:
+			guess_space.append(character)
+		else: 
+			guess_space.append(_)
+
+
+	return render_template("test.html", lives=player.lives, guess_space=guess_space)	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/easy', methods=['POST', 'GET'])
+def easy():
+	if request.method =="POST":
+		wordSplit=classpile.selector("easy")
+		char = request.form['char']
+		result = classpile.guess(char, wordSplit)
+		return render_template("guessing.html", wordSplit=wordSplit, result=result)
+	else:
+		return render_template("guessing.html")
+
+----
 class Pregame(object):
 	def selector():
 		wordSplit = []

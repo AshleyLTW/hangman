@@ -19,5 +19,22 @@ def selector(level):
 			wordSplit.append(character)	
 		return render_template("test.html", word=wordSplit)		
 
-def guess(character, wordSplit):
-	return render_template("test.html", word=wordSplit)
+
+class player(object):
+	def __init__(self, lives, level):
+		self.lives = lives
+		self.wordSplit = selector(level)
+
+	def lose_life(self):
+		self.lives -= 1
+		return self.lives
+
+	def guess(self, char):
+		if char in self.wordSplit:
+			return "yes"
+		else:
+			return "no"
+
+	def word(self):
+		return self.wordSplit
+
