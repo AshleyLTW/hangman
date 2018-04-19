@@ -23,18 +23,17 @@ def selector(level):
 class player(object):
 	def __init__(self, lives, level):
 		self.lives = lives
-		self.wordSplit = selector(level)
+		self.level = level
 
-	def lose_life(self):
-		self.lives -= 1
-		return self.lives
+	def word(self):
+		self.wordSplit = selector(self.level)
+		return self.wordSplit
 
-	def guess(self, char):
-		if char in self.wordSplit:
+	def guess(self, char, wordSplit):
+		if char in wordSplit:
 			return "yes"
 		else:
 			return "no"
 
-	def word(self):
-		return self.wordSplit
+
 

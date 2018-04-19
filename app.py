@@ -47,18 +47,21 @@ def easy():
 	# Guessing mechanism
 	if request.method =="POST":
 		char = request.form['char']
-		result = player.guess(char)
+		result = player.guess(char, wordSplit)
 		resp.set_cookie('newGame', "False")
 		lives = str(lives)
+		# If guess is correct
 		if result == "yes":
 			resp.set_cookie('lives', lives)
 			return resp
+		# If guess is incorrect
 		else: 
 			lives = int(lives) 
 			lives -= 1
 			lives = str(lives)
 			resp.set_cookie('lives', lives)
 			return resp
+	# If guess has not been made
 	else:
 		return render_template("guessing.html")
 
