@@ -36,14 +36,19 @@ def easy():
 		wordSplit = player.word()
 		wordSplit = str(wordSplit)
 		lives = player.lives
-		resp = make_response(render_template('guessing.html', wordSplit = wordSplit, lives = lives))
+		guessed_letters = ""
+		warning = ""
+		resp = make_response(render_template('guessing.html', wordSplit = wordSplit, lives = lives, warning = warning))
 		resp.set_cookie('wordSplit', wordSplit)
+		resp.set_cookie('guessed_letters', guessed_letters)
 	# Establishing instance of player class if it isn't a new game
 	else: 
 		wordSplit = request.cookies.get('wordSplit')
 		lives = request.cookies.get('lives')
-		resp = make_response(render_template('guessing.html', wordSplit = wordSplit, lives = lives))
+		warning = ""
+		resp = make_response(render_template('guessing.html', wordSplit = wordSplit, lives = lives, warning = warning))
 		player = classpile.player(request.cookies.get('lives'), "easy")
+		guessed_letters = request.cookies.get('guessed_letters')
 	# Guessing mechanism
 	if request.method == "POST":
 		# Checking player is still alive
@@ -53,9 +58,19 @@ def easy():
 			result = player.guess(char, wordSplit)
 			resp.set_cookie('newGame', "False")
 			lives = str(lives)
+			# If guess has been made before
+			if char in guessed_letters:
+				warning = "This letter has been guessed before! Please choose another one!"
+				return render_template('guessing.html', wordSplit = wordSplit, lives = lives, warning = warning)
+			# If guess is a new character
+			else: 
+				pass
+			# Adding the guess to guessed letters
+			guessed_letters = guessed_letters + char
+			resp.set_cookie('guessed_letters', guessed_letters)
 			# If guess is correct
 			if result == "yes":
-				resp.set_cookie('lives', lives)
+				
 				return resp
 			# If guess is incorrect
 			else: 
