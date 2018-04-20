@@ -20,24 +20,46 @@ def selector(level):
 		return render_template("test.html", word=wordSplit)		
 
 
-def guess(char, wordSplit):
+def correct(char, wordSplit):
 	if char in wordSplit:
 		return "yes"
 	else:
 		return "no"
 
-def guess_space(wordSplit, guessed_letters, session):
-	guess_space = []
+def space(wordSplit, guessed_letters, session):
+	space = []
 	for character in wordSplit:
-		if session.get('guessed_letters') == True and character in session['guessed_letters']:
-			guess_space.append(character)
+		if character in session['guessed_letters']:
+			space.append(character)
 		else:
-			guess_space.append("_")
-	return ' '.join(guess_space)	
+			space.append("_")
+	return ' '.join(space)	
 
 def new_game(session, lives, level): # Level must be a string
 	session['wordSplit'] = selector(level)
 	session['lives'] = lives
+
+
+def guess(session, char, result):
+	if "guessed_letters" not in session:
+		session['guessed_letters'] = []
+	session['newGame'] = False
+	if char in session['guessed_letters']:
+		warning = "This letter has been guessed before! Please choose another letter"
+		guess_space = space(session['wordSplit'], session['guessed_letters'], session)
+		return render_template('guessing.html', lives=session['lives'], warning=warning, guess_space=guess_space, guessed_letters=session['guessed_letters'])
+	else:
+		session['guessed_letters'].append(char)
+		guess_space = space(session['wordSplit'], session['guessed_letters'], session)
+		if result == 'yes':
+			return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'])
+		else: 
+			session['lives'] = session['lives'] - 1
+			return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'])
+
+
+
+
 
 
 

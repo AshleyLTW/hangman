@@ -11,11 +11,11 @@ def index():
 	#session['user'] = 'user'
 	if request.method == 'POST':
 		level = request.form['level']
-		if level == 'easy' or 'Easy':
+		if level.lower() == 'easy':
 			session['level'] = 'easy'
 			session['newGame'] = True
 			return redirect(url_for('easy'))
-		elif level == 'hard' or 'Hard':
+		elif level.lower() == 'hard':
 			return redirect(url_for('hard'))
 		else:
 			error = "I don't understand, please try again"
@@ -29,39 +29,15 @@ def index():
 def easy():
 	# session['newGame'] = True # Temporary to save me some time
 	# Selecting word, specifying lives if new game
-	if session['newGame'] == True:
+	if "newGame" in session and session['newGame'] == True:
 		classpile.new_game(session, 10, "easy")
 	# Guessing mechanism
 	if request.method == 'POST':
 		# Check player is still alive
 		if session['lives'] > 0: 
 			char = request.form['char']
-			result = classpile.guess(char, session['wordSplit'])
-			# If guessing for the first time
-			if session['newGame'] == True:
-				session['guessed_letters'] = [char] 
-				session['newGame'] = False 
-				guess_space = classpile.guess_space(session['wordSplit'], session['guessed_letters'], session)
-				if result == 'yes':
-					return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])
-				else:
-					session['lives'] = session['lives'] - 1
-					return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])
-			# If guess is a new character, add guess to guessed letters
-			if char not in session['guessed_letters']:
-				session['guessed_letters'].append(char)
-			guess_space = classpile.guess_space(session['wordSplit'], session['guessed_letters'], session)
-			# If guess has been made before
-			if char in session['guessed_letters']:
-				warning = "This letter has been guessed before! Please choose another one!"
-				return render_template('guessing.html', lives=session['lives'], warning=warning, guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])			
-			# If guess is correct
-			if result == 'yes':
-				return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])
-			# Subtract life for incorrect guess
-			else:
-				session['lives'] = session['lives'] - 1
-				return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])
+			result = classpile.correct(char, session['wordSplit'])
+			return classpile.guess(session, char, result)
 		# If player is dead
 		else: 
 			return render_template("death.html", wordSplit=session['wordSplit'])
@@ -73,13 +49,6 @@ def easy():
 def hard():
 	return classpile.selector("hard")
 
-@app.route('/getsession')
-def getsession():
-	if 'user' in session:
-		classpile.test(session)
-		return session['foo']
-	else:
-		return "Not logged in!"
 
 if __name__ == "__main__":
 	app.run()
