@@ -5,19 +5,19 @@ import wordpile
 
 
 def selector(level):
-	wordSplit = ""
+	wordSplit = []
 	if level == "easy":
 		wordNumber = random.randint(0, len(wordpile.wordsEasy)-1) 
 		wordSelected = f"{wordpile.wordsEasy.pop(wordNumber)}"
 		for character in wordSelected:
-			wordSplit = wordSplit + character
-		return wordSplit
+			wordSplit.append(character)
+		return ''.join(wordSplit)
 	else: 
 		wordNumber = random.randint(0, len(wordpile.wordsHard)-1) 
 		wordSelected = f"{wordpile.wordsHard.pop(wordNumber)}"
 		for character in wordSelected:
-			wordSplit = wordSplit + character	
-		return render_template("test.html", word=wordSplit)		
+			wordSplit.append(character)	
+		return ''.join(wordSplit)
 
 
 def correct(char, wordSplit):
@@ -38,6 +38,7 @@ def space(wordSplit, guessed_letters, session):
 def new_game(session, lives, level): # Level must be a string
 	session['wordSplit'] = selector(level)
 	session['lives'] = lives
+	session.pop('guessed_letters', None)
 
 
 def guess(session, char, result):
@@ -52,10 +53,17 @@ def guess(session, char, result):
 		session['guessed_letters'].append(char)
 		guess_space = space(session['wordSplit'], session['guessed_letters'], session)
 		if result == 'yes':
-			return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'])
+			if "_" in guess_space:
+				return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'])
+			else:
+				wordSplit = session['wordSplit']
+				return render_template('win.html', wordSplit=wordSplit)
 		else: 
 			session['lives'] = session['lives'] - 1
-			return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'])
+			if session['lives'] == 0: 
+				return render_template("death.html", wordSplit=session['wordSplit'])
+			else: 
+				return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'])
 
 
 

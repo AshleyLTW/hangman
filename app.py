@@ -27,27 +27,33 @@ def index():
 
 @app.route('/easy', methods=['POST', 'GET'])
 def easy():
-	# session['newGame'] = True # Temporary to save me some time
 	# Selecting word, specifying lives if new game
 	if "newGame" in session and session['newGame'] == True:
 		classpile.new_game(session, 10, "easy")
 	# Guessing mechanism
 	if request.method == 'POST':
-		# Check player is still alive
-		if session['lives'] > 0: 
-			char = request.form['char']
-			result = classpile.correct(char, session['wordSplit'])
-			return classpile.guess(session, char, result)
-		# If player is dead
-		else: 
-			return render_template("death.html", wordSplit=session['wordSplit'])
+		char = request.form['char']
+		result = classpile.correct(char, session['wordSplit'])
+		return classpile.guess(session, char, result)
 	# If guess has not been made
 	else:
+		level = "easy"
 		return render_template("guessing.html")
 
 @app.route('/hard', methods=['POST', 'GET'])
 def hard():
-	return classpile.selector("hard")
+	# Selecting word, specifying lives if new game
+	if "newGame" in session and session['newGame'] == True:
+		classpile.new_game(session, 10, "hard")
+	# Guessing mechanism
+	if request.method == 'POST':
+		char = request.form['char']
+		result = classpile.correct(char, session['wordSplit'])
+		return classpile.guess(session, char, result)
+	# If guess has not been made
+	else:
+		level = "hard"
+		return render_template("guessing.html")
 
 
 if __name__ == "__main__":
