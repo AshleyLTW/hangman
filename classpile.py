@@ -21,13 +21,9 @@ def selector(level):
 
 
 class player(object):
-	def __init__(self, lives, level):
-		self.lives = lives
+	def __init__(self, level):
 		self.level = level
 
-	def word(self):
-		self.wordSplit = selector(self.level)
-		return self.wordSplit
 
 	def guess(self, char, wordSplit):
 		if char in wordSplit:
@@ -47,3 +43,14 @@ class build(object):
 			else:
 				guess_space = guess_space + "_ "
 		return guess_space
+
+def set_up(session, lives, level): # Level must be a string
+	session['wordSplit'] = selector(level)
+	session['guessed_letters'] = ""
+	session['lives'] = lives
+
+
+
+
+
+

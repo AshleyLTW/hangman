@@ -1,19 +1,3 @@
-# A functioning hangman program except that I can't get it to work with Flask
-player = classpile.player(10, "easy")
-secret = player.wordSplit
-guess = request.form['char']
-remaining_letters = len(secret)
-guess_space = []
-
-while player.lives > 0 and remaining_letters > 0:
-	for character in secret:
-		if character in guessed_letters:
-			guess_space.append(character)
-		else: 
-			guess_space.append(_)
-
-
-	return render_template("test.html", lives=player.lives, guess_space=guess_space)	
 
 
 
