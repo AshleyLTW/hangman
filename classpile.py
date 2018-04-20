@@ -37,8 +37,8 @@ def guess_space(wordSplit, guessed_letters, session):
 
 def new_game(session, lives, level): # Level must be a string
 	session['wordSplit'] = selector(level)
-	session['guessed_letters'] = none
 	session['lives'] = lives
+
 
 
 

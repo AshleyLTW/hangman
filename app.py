@@ -37,13 +37,22 @@ def easy():
 		if session['lives'] > 0: 
 			char = request.form['char']
 			result = classpile.guess(char, session['wordSplit'])
-			session['newGame'] = False 
+			# If guessing for the first time
+			if session['newGame'] == True:
+				session['guessed_letters'] = [char] 
+				session['newGame'] = False 
+				guess_space = classpile.guess_space(session['wordSplit'], session['guessed_letters'], session)
+				if result == 'yes':
+					return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])
+				else:
+					session['lives'] = session['lives'] - 1
+					return render_template('guessing.html', lives=session['lives'], guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])
 			# If guess is a new character, add guess to guessed letters
-			if session.get('guessed_letters') == True and char not in session['guessed_letters']:
+			if char not in session['guessed_letters']:
 				session['guessed_letters'].append(char)
 			guess_space = classpile.guess_space(session['wordSplit'], session['guessed_letters'], session)
 			# If guess has been made before
-			if session.get('guessed_letters') == True and char in session['guessed_letters']:
+			if char in session['guessed_letters']:
 				warning = "This letter has been guessed before! Please choose another one!"
 				return render_template('guessing.html', lives=session['lives'], warning=warning, guess_space=guess_space, wordSplit = session['wordSplit'], guessed_letters=session['guessed_letters'])			
 			# If guess is correct
