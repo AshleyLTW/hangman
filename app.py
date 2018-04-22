@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
 from os import urandom
 import classpile
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -16,6 +17,8 @@ def index():
 			session['newGame'] = True
 			return redirect(url_for('easy'))
 		elif level.lower() == 'hard':
+			session['level'] = 'hard'
+			session['newGame'] = True
 			return redirect(url_for('hard'))
 		else:
 			error = "I don't understand, please try again"
