@@ -1,87 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="A hello world hangman">
-    <meta name="author" content="Ashley">
-    <link rel="icon" href="../../favicon.ico">
+{% extends "header.html" %}
 
-    <title>Hangman</title>
+{% block head %}
+<head>
+	<title>Guessing Time</title>
+</head>
+{% endblock %}
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/bootstrap.min.css" rel="stylesheet">
+{% block body %}
+<body>
 
-    <!-- Custom styles for this template -->
-    <link href="/static/cover.css" rel="stylesheet">
+	<div class="inner cover">
+	  <h1 class="cover-heading"> hi</h1>
+	  
+	</div>
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+	<div class="row">
+		<div class="col-lg-6">
+	  		<form action="/easy" method="POST">
+	    	<div class="input-group">
+	    	  <span class="input-group-addon" id="basic-addon1"></span>
+	    	  <input type="text" class="form-control" placeholder="Make a guess!" aria-describedby="basic-addon1" name="char">
+	    	</div>
+	    	</form>
+	  	</div><!-- /.col-lg-6 -->
+	</div><!-- /.row -->
+	
+	</br></br>
 
-  <body>
+	{{wordSplit}}
 
-    <div class="site-wrapper">
+	{{lives}}</br>
 
-      <div class="site-wrapper-inner">
+	{{guessed_letters}}</br>
 
-        <div class="cover-container">
-          <div class="masthead clearfix">
-            <div class="inner">
-              <h3 class="masthead-brand"></h3>
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li class="active"><a href="#"></a></li>
-                  <li><a href="#"></a></li>
-                  <li><a href="#"></a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
+	<i>{{guess_space}}</i></br>
 
-          <div class="inner cover">
-            <h1 class="cover-heading">Welcome to Hangman.</h1>
-            <p class="lead">What level would you like to play?</p>
-            <p class="lead">
-             	<form action="/" method="POST">
-              	    <div class="input-group">
-              	    	<input type="text" name="level" class="form-control" placeholder="easy...or hard?">
-              	    	<span class="input-group-btn">
-              	        	<button class="btn btn-default" type="button">Go!</button>
-              	      	</span>
-              	    </div><!-- /input-group -->
-            	</form>
-            </p>
-          </div>
+	{{warning}}
 
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
-</html>
+</body>
+{% endblock %}

@@ -33,7 +33,7 @@ def index():
 def easy():
 	# Selecting word, specifying lives if new game
 	if "newGame" in session and session['newGame'] == True:
-		classpile.new_game(session, 10, "easy")
+		classpile.new_game(session, 7, "easy")
 	# Guessing mechanism
 	if request.method == 'POST':
 		char = request.form['char']
@@ -48,7 +48,7 @@ def easy():
 def hard():
 	# Selecting word, specifying lives if new game
 	if "newGame" in session and session['newGame'] == True:
-		classpile.new_game(session, 10, "hard")
+		classpile.new_game(session, 7, "hard")
 	# Guessing mechanism
 	if request.method == 'POST':
 		char = request.form['char']

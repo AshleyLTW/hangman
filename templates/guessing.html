@@ -8,19 +8,23 @@
 
 {% block body %}
 <body>
+
+	<h3> {{ pic }} </h3>
+
+
 	<div class="row">
 		<div class="col-lg-6">
 	  		<form action="/easy" method="POST">
 	    	<div class="input-group">
-	    		<input type="text" name="char" class="form-control" placeholder="Make a guess!">
-	    		<span class="input-group-btn">
-	        		<button class="btn btn-default" type="button">Guess!</button>
-	      		</span>
-	    	</div><!-- /input-group -->
+	    	  <span class="input-group-addon" id="basic-addon1"></span>
+	    	  <input type="text" class="form-control" placeholder="Make a guess!" aria-describedby="basic-addon1" name="char">
+	    	</div>
 	    	</form>
 	  	</div><!-- /.col-lg-6 -->
 	</div><!-- /.row -->
 	
+	</br></br>
+
 	{{wordSplit}}
 
 	{{lives}}</br>
