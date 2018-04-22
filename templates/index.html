@@ -1,17 +1,33 @@
-<!DOCTYPE html>
-<html>
+{% extends "header.html" %}
+
+{% block head %}
 <head>
 	<title>Hangman</title>
 </head>
+{% endblock %}
+
+{% block body %}
 <body>
 
-<h1>Welcome to Hangman!</h1>
-<h3>Would you like to play an easy or hard level?</h3>
+	<h1>Welcome to Hangman!</h1>
+	<h3>Would you like to play an easy or hard level?</h3>
 
-<form action="/" method="POST">
-	<input type="text" name="level">
-	<input type="submit">
-</form>
-{{ error }}
+	<div class="row">
+		<div class="col-lg-6">
+	  		<form action="/" method="POST">
+	    	<div class="input-group">
+	    		<input type="text" name="level" class="form-control" placeholder="Which level?">
+	    		<span class="input-group-btn">
+	        		<button class="btn btn-default" type="button">Go!</button>
+	      		</span>
+	    	</div><!-- /input-group -->
+	    	</form>
+	  	</div><!-- /.col-lg-6 -->
+	</div><!-- /.row -->
+	
+
+
+	{{ error }}
 </body>
-</html>
+{% endblock %}
+

@@ -1,22 +1,35 @@
-<!DOCTYPE html>
-<html>
+{% extends "header.html" %}
+
+{% block head %}
 <head>
 	<title>Guessing Time</title>
 </head>
+{% endblock %}
+
+{% block body %}
 <body>
-	<form action="/easy" method="POST">
-		Input the first letter you'd like to guess <input type="text" name="char">
-		<input type="submit">
-	</form>
-{{wordSplit}}
+	<div class="row">
+		<div class="col-lg-6">
+	  		<form action="/easy" method="POST">
+	    	<div class="input-group">
+	    		<input type="text" name="char" class="form-control" placeholder="Make a guess!">
+	    		<span class="input-group-btn">
+	        		<button class="btn btn-default" type="button">Guess!</button>
+	      		</span>
+	    	</div><!-- /input-group -->
+	    	</form>
+	  	</div><!-- /.col-lg-6 -->
+	</div><!-- /.row -->
+	
+	{{wordSplit}}
 
-{{lives}}</br>
+	{{lives}}</br>
 
-{{guessed_letters}}</br>
+	{{guessed_letters}}</br>
 
-<i>{{guess_space}}</i></br>
+	<i>{{guess_space}}</i></br>
 
-{{warning}}
+	{{warning}}
 
 </body>
-</html>
+{% endblock %}

@@ -1,8 +1,12 @@
-<!DOCTYPE html>
-<html>
+{% extends "header.html" %}
+
+{% block head %}
 <head>
 	<title>Yay!</title>
 </head>
+{% endblock %}
+
+{% block body %}
 <body>
 
 <h1>You've won!!</h1>
@@ -12,4 +16,4 @@
 <h4>Would you like to play <a href="/{{level}}"> again? </a></h4>
 
 </body>
-</html>
+{% endblock %}

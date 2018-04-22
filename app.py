@@ -4,6 +4,7 @@ from os import urandom
 import classpile
 from flask_bootstrap import Bootstrap
 
+
 app = Flask(__name__)
 app.secret_key = urandom(24)
 
