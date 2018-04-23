@@ -9,68 +9,60 @@ app = Flask(__name__)
 app.secret_key = urandom(24)
 
 @app.route('/', methods=['POST', 'GET'])
-def hangman_pic():
-	pic = [
-		"""
-		
-		""",
-	    """
-	    x-------x
-	    """,
-	    """
-	    x-------x
-	    |
-	    |
-	    |
-	    |
-	    |
-	    """,
-	    """
-	    x-------x
-	    |       |
-	    |       0
-	    |
-	    |
-	    |
-	    """,
-	    """
-	    x-------x
-	    |       |
-	    |       0
-	    |       |
-	    |
-	    |
-	    """,
-	    """
-	    x-------x
-	    |       |
-	    |       0
-	    |      /|\\
-	    |
-	    |
-	    """,
-	    """
-	    x-------x
-	    |       |
-	    |       0
-	    |      /|\\
-	    |      /
-	    |
-	    """,
-	    """
-	    x-------x
-	    |       |
-	    |       0
-	    |      /|\\
-	    |      / \\
-	    |
-	    """
-	]
+def index():
+	#session['user'] = 'user'
+	if request.method == 'POST':
+		level = request.form['level']
+		if level.lower() == 'easy':
+			session['level'] = 'easy'
+			session['newGame'] = True
+			return redirect(url_for('easy'))
+		elif level.lower() == 'hard':
+			session['level'] = 'hard'
+			session['newGame'] = True
+			return redirect(url_for('hard'))
+		else:
+			error = "I don't understand, please try again"
+			return render_template("index.html", error=error)
+	else:
+		return render_template("index.html")
 
-	lives = 7
 
-	return pic[7-lives]
 
+@app.route('/easy', methods=['POST', 'GET'])
+def easy():
+	# Selecting word, specifying lives if new game
+	if "newGame" in session and session['newGame'] == True:
+		classpile.new_game(session, 7, "easy")
+	# Guessing mechanism
+	if request.method == 'POST':
+		char = request.form['char']
+		result = classpile.correct(char, session['wordSplit'])
+		return classpile.guess(session, char, result)
+	# If guess has not been made
+	else:
+		level = "easy"
+		return render_template("guessing.html")
+
+@app.route('/hard', methods=['POST', 'GET'])
+def hard():
+	# Selecting word, specifying lives if new game
+	if "newGame" in session and session['newGame'] == True:
+		classpile.new_game(session, 7, "hard")
+		wordSplit = session['wordSplit']
+	# Guessing mechanism
+	if request.method == 'POST':
+		char = request.form['char']
+		result = classpile.correct(char, session['wordSplit'])
+		return classpile.guess(session, char, result)
+	# If guess has not been made
+	else:
+		session['level'] = "hard"
+		return render_template("guessing.html")
+
+@app.route('/test')
+def test():
+	return render_template("test.html")
 
 if __name__ == "__main__":
 	app.run()

@@ -41,7 +41,7 @@ def easy():
 		return classpile.guess(session, char, result)
 	# If guess has not been made
 	else:
-		level = "easy"
+		session['level'] = "easy"
 		return render_template("guessing.html")
 
 @app.route('/hard', methods=['POST', 'GET'])
@@ -56,7 +56,7 @@ def hard():
 		return classpile.guess(session, char, result)
 	# If guess has not been made
 	else:
-		level = "hard"
+		session['level'] = "hard"
 		return render_template("guessing.html")
 
 @app.route('/test')
