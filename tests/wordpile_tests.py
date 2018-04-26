@@ -5,6 +5,7 @@ from flask import Flask, session, request
 from app import *
 from unittest import mock
 import unittest
+import pprint
 
 
 wordsEasy = ["awkward", "bagpipes", "banjo", "crypt", "dwarves", "fishhook", "fjord", "gazebo", "haiku"]
@@ -46,10 +47,67 @@ def test_newgame():
 			sess['guessed_letters'] = ["a"]
 		rv = new_game(sess, 7, "easy")
 		assert_false("guessed_letters" in sess)
-		assert_true(sess.get('lives'))
-		assert_true(sess.get('wordSplit'))
+		assert_true("lives" in sess)
+		assert_true("wordSplit" in sess)
 
-	
+@mock.patch('classpile.render_template', return_value="template rendered")
+class testGuess(unittest.TestCase):
+	def test_guessSpace(self, foo):
+		with app.test_client() as c:
+			app.secret_key = 'secret'
+			with c.session_transaction() as sess:
+				sess['wordSplit'] = "b"
+				sess['lives'] = 1
+			rv = guess(sess, "a", "yes")
+			assert_true("guessed_letters" in sess)
+
+	def test_falseNewGame(self, foo):
+		with app.test_client() as c:
+			app.secret_key = 'secret'
+			with c.session_transaction() as sess:
+				sess['wordSplit'] = "b"
+				sess['lives'] = 1
+			rv = guess(sess, "a", "yes")
+			assert_false(sess['newGame'])
+
+	def test_appendChar(self, foo):
+		with app.test_client() as c:
+			app.secret_key = 'secret'
+			with c.session_transaction() as sess:
+				sess['wordSplit'] = "b"
+				sess['lives'] = 1
+			rv = guess(sess, "a", "yes")
+			assert_equal(sess['guessed_letters'], ["a"])
+
+	def test_sameLife(self,foo):
+		with app.test_client() as c:
+			app.secret_key = 'secret'
+			with c.session_transaction() as sess:
+				sess['wordSplit'] = "a"
+				sess['lives'] = 1
+			rv = guess(sess, "a", "yes")
+			assert_equal(sess['lives'], 1)
+
+	def test_loseLives(self, foo):
+		with app.test_client() as c:
+			app.secret_key = 'secret'
+			with c.session_transaction() as sess:
+				sess['wordSplit'] = "b"
+				sess['lives'] = 2
+			rv = guess(sess, "a", "no")
+			assert_equal(sess['lives'], 1)
+
+			
+
+	# def test_win(self, foo):
+	# 	with app.test_client() as c:
+	# 		app.secret_key = 'secret'
+	# 		with c.session_transaction() as sess:
+	# 			sess['wordSplit'] = "b"
+	# 			sess['lives'] = 2
+	# 		rv = guess(sess, "b", "yes")
+	# 		assert_equal(sess['lives'], 2)
+	# 		assert_true('win.html' in rv)
 
 
 
