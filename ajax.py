@@ -36,7 +36,8 @@ def easy():
 @app.route('/_processing', methods=['POST', 'GET'])
 def process():
 	# Guessing mechanism
-	return jsonify(lives='lives', guessed_letters='guessed_letters', guess_space='guess_space', warning='warning')
+	char = request.args.get('char', type=str)
+	return jsonify(char=char, lives=session['lives'], guessed_letters='guessed_letters', guess_space='guess_space', warning='warning')
 
 	# if request.method == 'POST':
 	# 	char = request.form['char']
