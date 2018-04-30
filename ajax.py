@@ -37,7 +37,9 @@ def easy():
 def process():
 	# Guessing mechanism
 	char = request.args.get('char', type=str)
-	return jsonify(char=char, lives=session['lives'], guessed_letters='guessed_letters', guess_space='guess_space', warning='warning')
+	result = classpile.correct(char, session['wordSplit'])
+	return classpile.guess(session, char, result)
+	# return jsonify(lives=session['lives'], guessed_letters='guessed_letters', guess_space='guess_space', warning='warning')
 
 	# if request.method == 'POST':
 	# 	char = request.form['char']
