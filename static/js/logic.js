@@ -1,4 +1,3 @@
-// Warning isn't working when guessing repeated characters
 $(function() {
 	$('form').on('submit', function() {
 		$.getJSON('/_processing', {

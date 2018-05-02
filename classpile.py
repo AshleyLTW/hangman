@@ -37,14 +37,16 @@ def new_game(session, lives, level): # Level must be a string
 	session['lives'] = lives
 	session.pop('guessed_letters', None)
 
+
+
 # Processing guess: checking if in/adding to already guessed list, subtracting lives, checking if still alive
 def guess(session, char, result):
 	if "guessed_letters" not in session:
 		session['guessed_letters'] = []
-	if char in session['guessed_letters']:
+	if char in ' '.join(session['guessed_letters']):
 		warning = "This letter has been guessed before! Please choose another letter"
 		guess_space = space(session['wordSplit'], session['guessed_letters'])
-		return jsonify(lives=session['lives'], warning=warning, guess_space=guess_space, guessed_letters=session['guessed_letters'], pic=pic)
+		return jsonify(lives=session['lives'], warning=warning, guess_space=guess_space, guessed_letters=session['guessed_letters'])
 	else:
 		session['guessed_letters'].append(' ' + char)
 		guess_space = space(session['wordSplit'], session['guessed_letters'])
