@@ -38,7 +38,7 @@ def process():
 	# Guessing mechanism
 	char = request.args.get('char', type=str)
 	result = classpile.correct(char, session['wordSplit'])
-	return classpile.guess(session, char, result).
+	return classpile.guess(session, char, result)
 
 if __name__ == "__main__":
 	app.run()

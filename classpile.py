@@ -41,28 +41,33 @@ def new_game(session, lives, level): # Level must be a string
 def guess(session, char, result):
 	if "guessed_letters" not in session:
 		session['guessed_letters'] = []
-	session['newGame'] = False
 	if char in session['guessed_letters']:
 		warning = "This letter has been guessed before! Please choose another letter"
 		guess_space = space(session['wordSplit'], session['guessed_letters'])
 		return jsonify(lives=session['lives'], warning=warning, guess_space=guess_space, guessed_letters=session['guessed_letters'], pic=pic)
 	else:
-		session['guessed_letters'].append(char)
+		session['guessed_letters'].append(' ' + char)
 		guess_space = space(session['wordSplit'], session['guessed_letters'])
 		if result == 'yes':
 			if "_" in guess_space:
 				pic = hangman_pic(session['lives'])
 				return jsonify(lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'], pic=pic)
 			else:
-				wordSplit = session['wordSplit']
 				pic = hangman_pic(session['lives'])
-				# TODO EVENTUALLY: ajax the rendering of new templates so page doesn't refresh
-				return render_template('win.html', wordSplit=wordSplit)
+				return jsonify(wordSplit=session['wordSplit'], pic=pic, guess_space=guess_space, lives=session['lives'])
 		else: 
 			session['lives'] = session['lives'] - 1
+			# Testing if session['lives'] is saved as string or int
+			# if str(session['lives']):
+			# 	state = "string"
+			# elif int(session['lives']): 
+			# 	state = "integer"
+			# else: 
+			# 	state = "else"
+
 			if session['lives'] == 0: 
 				pic = hangman_pic(8)
-				return render_template("death.html", wordSplit=session['wordSplit'], pic=pic)
+				return jsonify(wordSplit=session['wordSplit'], pic=pic, guess_space=guess_space)
 			else: 
 				pic = hangman_pic(session['lives'])
 				return jsonify(lives=session['lives'], guess_space=guess_space, guessed_letters=session['guessed_letters'], pic=pic)
