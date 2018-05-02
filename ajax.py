@@ -38,17 +38,7 @@ def process():
 	# Guessing mechanism
 	char = request.args.get('char', type=str)
 	result = classpile.correct(char, session['wordSplit'])
-	return classpile.guess(session, char, result)
-	# return jsonify(lives=session['lives'], guessed_letters='guessed_letters', guess_space='guess_space', warning='warning')
-
-	# if request.method == 'POST':
-	# 	char = request.form['char']
-	# 	result = classpile.correct(char, session['wordSplit'])
-	# 	return classpile.guess(session, char, result)
-	# # If guess has not been made
-	# else:
-	# 	session['level'] = "easy"
-	# 	return render_template("guessing.html")
+	return classpile.guess(session, char, result).
 
 if __name__ == "__main__":
 	app.run()
