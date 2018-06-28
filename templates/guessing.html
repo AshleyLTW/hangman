@@ -3,6 +3,8 @@
 {% block head %}
 <head>
 	<title>Guessing Time</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/../static/js/logic.js"></script>
 </head>
 {% endblock %}
 
@@ -11,29 +13,35 @@
 
 	<h3> {{ pic }} </h3>
 
+	<h2 id="message"></h2>
+
+	</br>
+
+	<h4 id="wordSplit"></h4>
 
 	<div class="row">
 		<div class="col-lg-6">
 	  		<form action="/{{ session['level'] }}" method="POST">
-	    	<div class="input-group">
-	    	  <span class="input-group-addon" id="basic-addon1"></span>
-	    	  <input type="text" class="form-control" placeholder="Make a guess!" aria-describedby="basic-addon1" name="char">
-	    	</div>
+	    		<div>
+	    			<input type="text" class="form-control" placeholder="Make a guess!" aria-label="Guess" aria-describedby="basic-addon2" id="char">
+	    			</br>
+	    			<div class="input-group-append">
+	    				<button class="btn btn-outline-secondary" type="submit">Guess</button>
+	    		  	</div>
+	    		</div>
 	    	</form>
 	  	</div><!-- /.col-lg-6 -->
 	</div><!-- /.row -->
 	
-	</br></br>
+	<p id="lives"></p>
 
-	{{wordSplit}}
+	<p id="guessed_letters"></p>
 
-	{{lives}}</br>
+	<p id="guess_space"></p>
 
-	{{guessed_letters}}</br>
+	<p id="warning"></p>
 
-	<i>{{guess_space}}</i></br>
-
-	{{warning}}
+	<!-- <p id="space"></p> -->
 
 </body>
 {% endblock %}
